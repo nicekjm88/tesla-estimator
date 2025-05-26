@@ -1,6 +1,5 @@
 'use client'
 import React, { useState } from 'react';
-import '../styles/overrides.css';
 import { Layout, Row, Col, Typography, Affix } from 'antd';
 import ModelSelector from '../components/ModelSelector';
 import ColorPicker from '../components/ColorPicker';
@@ -65,7 +64,7 @@ export default function Home() {
           New Model Y
         </Title>
         <Row gutter={[32, 32]} justify="center">
-          <Col xs={24} lg={16} style={{ maxWidth: '900px', }}>
+          <Col xs={24} lg={16} className="main-content-col" style={{ maxWidth: '900px', }}>
             <ModelSelector
               value={selectedModel}
               onChange={setSelectedModel}
@@ -113,7 +112,7 @@ export default function Home() {
             />
 
           </Col>
-          <Col xs={24} lg={8} style={{ maxWidth: '500px', }} >
+          <Col xs={24} lg={8} className="main-content-col" style={{ maxWidth: '500px', }} >
             <Affix offsetTop={24}>
               <Summary
                 model={model}
