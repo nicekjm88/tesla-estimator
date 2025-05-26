@@ -1,57 +1,60 @@
 'use client'
 import React from 'react';
-import { Radio, Card } from 'antd';
+import { Card, Button, Typography, Space, Image } from 'antd';
 import { models } from '../constants/models';
 import { colors } from '../constants/colors';
 
-const ModelSelector = ({ value, onChange, colorKey }) => {
+const { Text } = Typography;
 
+const ModelSelector = ({ value, onChange, colorKey }) => {
   // 선택된 색상에 해당하는 renderImg 경로 추출
   const selectedColor = colors.find((c) => c.key === colorKey);
   const renderImgSrc = selectedColor?.renderImg || '';
 
-return (
-    <div style={{ marginBottom: 32 }}>
+  return (
+    <Card style={{ marginBottom: 32 }} bodyStyle={{ padding: 16 }}>
       {/* 선택된 색상 이미지 차량 렌더링 */}
       {renderImgSrc && (
-        <img
-          src={renderImgSrc}
-          alt={`${selectedColor.name} 차량`}
-          style={{
-            width: '100%',
-            maxWidth: 640,
-            marginBottom: 16,
-            borderRadius: 8,
-            boxShadow: '0 0 12px rgba(0,0,0,0.1)',
-          }}
-        />
+        <div style={{ marginBottom: 24, textAlign: 'center' }}>
+          <Image
+            src={renderImgSrc}
+            alt={`${selectedColor.name} 차량`}
+            style={{ width: '100%', maxHeight: 300 }}
+            preview={false}
+          />
+        </div>
       )}
 
-      <div style={{ display: 'flex', gap: 8 }}>
+      <Space.Compact style={{ display: 'flex', width: '100%' }}>
         {models.map((model) => {
           const isSelected = model.key === value;
           return (
-            <button
+            <Button
               key={model.key}
-              onClick={() => onChange(model.key)}
-              style={{
+              type={isSelected ? 'primary' : 'default'}
+              size="large"
+              style={{ 
                 flex: 1,
-                padding: 12,
-                borderRadius: 6,
-                border: isSelected ? '2px solid #1890ff' : '1px solid #ccc',
-                backgroundColor: isSelected ? '#e6f4ff' : '#fff',
-                fontWeight: isSelected ? 'bold' : 'normal',
-                cursor: 'pointer',
+                height: 'auto',
+                padding: '12px 8px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center'
               }}
+              onClick={() => onChange(model.key)}
             >
-              {model.name}
-              <br />
-              <small>₩{model.price.toLocaleString()}</small>
-            </button>
+              <div>
+                {model.name}
+              </div>
+              <Text type="primary" style={{ fontSize: '12px', marginTop: 4 }}>
+                {model.price.toLocaleString()}원
+              </Text>
+            </Button>
           );
         })}
-      </div>
-    </div>
+      </Space.Compact>
+    </Card>
   );
 };
 

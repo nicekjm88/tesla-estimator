@@ -7,14 +7,14 @@ import WheelPicker from '../components/WheelPicker';
 import InteriorPicker from '../components/InteriorPicker';
 import RegionSelector from '../components/RegionSelector';
 import Summary from '../components/Summary';
-import AutopilotSelector from '../components/AutopilotSelector'; // 🟡 추가
+import AutopilotSelector from '../components/AutopilotSelector';
 
 import { models } from '../constants/models';
 import { colors } from '../constants/colors';
 import { wheels } from '../constants/wheels';
 import { interiors } from '../constants/interiors';
 import { regions } from '../constants/regions';
-import { autopilotOptions } from '../constants/autopilotOptions'; // 🟡 추가
+import { autopilotOptions } from '../constants/autopilotOptions';
 
 import { calculatePrice } from '../utils/calculatePrice';
 
@@ -28,15 +28,15 @@ export default function Home() {
   const [selectedWheel, setSelectedWheel] = useState('crossflow19');
   const [selectedInterior, setSelectedInterior] = useState('allBlack');
   const [selectedRegion, setSelectedRegion] = useState('seoul');
-  const [selectedAutopilot, setSelectedAutopilot] = useState('none'); // 🟡 추가
-
+  const [selectedAutopilot, setSelectedAutopilot] = useState('none');
 
   // 선택된 항목 정보 추출
   const model = models.find((m) => m.key === selectedModel);
   const color = colors.find((c) => c.key === selectedColor);
   const wheel = wheels.find((w) => w.key === selectedWheel);
+  const interior = interiors.find((i) => i.key === selectedInterior); // 🔴 수정: 선택된 인테리어 객체 추출
   const region = regions.find((r) => r.key === selectedRegion);
-  const autopilot = autopilotOptions.find((o) => o.key === selectedAutopilot); // 🟡 추가
+  const autopilot = autopilotOptions.find((o) => o.key === selectedAutopilot);
 
   const price = calculatePrice({
     model: selectedModel,
@@ -44,18 +44,17 @@ export default function Home() {
     wheel: selectedWheel,
     interior: selectedInterior,
     region: selectedRegion,
-    autopilot: selectedAutopilot, // 🟡 추가
+    autopilot: selectedAutopilot,
   });
 
   return (
     <Layout style={{ minHeight: '100vh', backgroundColor: '#ffffff' }}>
       <Content style={{ padding: '40px 16px' }}>
         <Title level={2} style={{ textAlign: 'center', marginBottom: 32 }}>
-          Tesla Model Y 견적기
+          New Model Y
         </Title>
         <Row gutter={[32, 32]} justify="center">
-
-          <Col xs={24} lg={16} style={{ maxWidth: '700px', }}>
+          <Col xs={24} lg={16} style={{ maxWidth: '900px', }}>
             <ModelSelector
               value={selectedModel}
               onChange={setSelectedModel}
@@ -79,35 +78,34 @@ export default function Home() {
               modelKey={selectedModel}
             />
 
-            <Title level={4} style={{ marginTop: 40 }}>5. 오토파일럿 옵션</Title> {/* 🟡 추가 */}
+            <Title level={4} style={{ marginTop: 40 }}>4. 오토파일럿 옵션</Title>
             <AutopilotSelector
               value={selectedAutopilot}
               onChange={setSelectedAutopilot}
             />
 
-            <Title level={4} style={{ marginTop: 40 }}>4. 거주 지역 선택</Title>
+            <Title level={4} style={{ marginTop: 40 }}>5. 거주 지역 선택</Title>
             <RegionSelector
               value={selectedRegion}
               onChange={setSelectedRegion}
             />
 
           </Col>
-          <Col xs={24} lg={8} style={{ maxWidth: '400px', }} >
+          <Col xs={24} lg={8} style={{ maxWidth: '500px', }} >
             <Affix offsetTop={24}>
               <Summary
                 model={model}
                 color={color}
                 price={price}
                 wheel={wheel}
-                interiors={interiors}
+                interiors={interior} // 🔴 수정: 선택된 인테리어 객체 전달
                 region={region}
-                autopilot={autopilot} // 🟡 추가
+                autopilot={autopilot}
               />
             </Affix>
           </Col>
         </Row>
       </Content>
     </Layout>
-
   );
 }

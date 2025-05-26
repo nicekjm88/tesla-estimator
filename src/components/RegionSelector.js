@@ -1,26 +1,28 @@
 'use client'
 import React from 'react';
+import { Select } from 'antd';
 import { regions } from '../constants/regions';
 
 const RegionSelector = ({ value, onChange }) => {
+  const options = regions.map(region => ({
+    label: region.name,
+    value: region.key,
+  }));
+
   return (
     <div style={{ marginTop: 32 }}>
-      <label htmlFor="region-select"><strong>거주 지역 선택</strong></label>
-      <select
+      <Select
         id="region-select"
+        showSearch // 검색 자동완성 활성화
+        filterOption={(input, option) =>
+          (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+        }
         value={value}
-        onChange={(e) => onChange(e.target.value)}
-        style={{ display: 'block', marginTop: 8, padding: 8, width: 240 }}
-      >
-        {regions.map((region) => (
-          <option
-            key={region.key}
-            value={region.key}
-          >
-            {region.name}
-          </option>
-        ))}
-      </select>
+        onChange={onChange}
+        style={{ display: 'block', marginTop: 8, width: 240 }}
+        placeholder="지역을 선택하세요"
+        options={options}
+      />
     </div>
   );
 };
