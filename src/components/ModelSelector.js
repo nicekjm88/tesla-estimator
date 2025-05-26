@@ -30,26 +30,17 @@ const ModelSelector = ({ value, onChange, colorKey }) => {
           const isSelected = model.key === value;
           return (
             <Button
+              className="model-btn"
               key={model.key}
               type={isSelected ? 'primary' : 'default'}
               size="large"
-              style={{ 
-                flex: 1,
-                height: 'auto',
-                padding: '12px 8px',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
               onClick={() => onChange(model.key)}
             >
-              <div>
+              <strong>
                 {model.name}
-              </div>
-              <Text type="primary" style={{ fontSize: '12px', marginTop: 4 }}>
-                {model.price.toLocaleString()}원
-              </Text>
+              </strong>
+              {model.price.toLocaleString()}원
+              
             </Button>
           );
         })}

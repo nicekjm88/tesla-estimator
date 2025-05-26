@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import { Card, Typography, Table, Tag } from 'antd';
+import { deliveryOptions } from '../constants/deliveryOptions';
 
 const { Title, Text } = Typography;
 
@@ -17,10 +18,10 @@ const CountingNumber = ({ value, duration = 100 }) => {
       const now = Date.now();
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      
+
       // easeOutCubic 이징 함수 (Toss 스타일)
       const easeProgress = 1 - Math.pow(1 - progress, 3);
-      
+
       const currentValue = Math.floor(startValue + (endValue - startValue) * easeProgress);
       setDisplayValue(currentValue);
 
@@ -37,10 +38,8 @@ const CountingNumber = ({ value, duration = 100 }) => {
   return <span>{displayValue.toLocaleString('ko-KR')}</span>;
 };
 
-const Summary = ({ model, color, wheel, interiors, region, autopilot, price, registrationMethod }) => {
-  // 디버깅을 위한 콘솔 로그 추가
-  console.log('Summary props:', { model, color, wheel, interiors, region, autopilot, price, registrationMethod });
-
+const Summary = ({ model, color, wheel, interiors, region, autopilot, price, registrationMethod, deliveryOption }) => {
+  const deliveryOptionObj = deliveryOptions.find(o => o.key === deliveryOption);
   const dataSource = [
     {
       key: 'model',
@@ -71,12 +70,24 @@ const Summary = ({ model, color, wheel, interiors, region, autopilot, price, reg
       label: '오토파일럿',
       value: autopilot?.name || '선택되지 않음',
       price: price?.autopilotPrice || 0,
-    },    
+    },
     {
       key: 'region',
       label: '보조금',
       value: region?.name || '선택되지 않음',
       price: -(price?.subsidy || 0),
+    },
+    {
+      key: 'registrationMethod',
+      label: '등록 방법',
+      value: registrationMethod?.label || '선택되지 않음',
+      price: registrationMethod?.price || 0,
+    },
+    {
+      key: 'deliveryOption',
+      label: '탁송비',
+      value: deliveryOptionObj?.label || '선택되지 않음',
+      price: deliveryOptionObj?.price || 0,
     },
   ];
 
@@ -127,8 +138,8 @@ const Summary = ({ model, color, wheel, interiors, region, autopilot, price, reg
         bordered={false}
         style={{ marginBottom: 16 }}
       />
-      
-      <div 
+
+      <div
         style={{
           borderTop: '2px solid #333',
           paddingTop: 16,
@@ -140,11 +151,11 @@ const Summary = ({ model, color, wheel, interiors, region, autopilot, price, reg
         <Title level={4} style={{ margin: 0, color: '#333' }}>
           총 합계
         </Title>
-        <Title 
-          level={3} 
-          style={{ 
-            margin: 0, 
-            color: '#dc3545',
+        <Title
+          level={3}
+          style={{
+            margin: 0,
+            color: '#c62828',
             fontWeight: 'bold',
             transition: 'transform 0.2s ease'
           }}

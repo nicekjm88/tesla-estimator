@@ -16,7 +16,7 @@ const InteriorPicker = ({ value, onChange, modelKey }) => {
         return (
           <Col key={interior.key} xs={12} sm={8} md={8} lg={8} xl={8}>
             <Badge.Ribbon 
-              text={price > 0 ? `+₩${price.toLocaleString()}` : '포함'} 
+              text={price > 0 ? `+${price.toLocaleString()}원` : '포함'} 
               color={price > 0 ? 'red' : 'green'}
               style={{ display: price >= 0 ? 'block' : 'none' }}
             >

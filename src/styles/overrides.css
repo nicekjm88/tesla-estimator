@@ -1,0 +1,25 @@
+.model-btn {
+  flex: 1;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60px !important;
+}
+.model-btn.ant-btn-primary {
+  background-color: #333 !important;
+  border-color: #333 !important;
+}
+:where(.css-dev-only-do-not-override-wf7orr).ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
+  color: #333 !important;
+  border-color: #333 !important;
+}
+:where(.css-dev-only-do-not-override-wf7orr).ant-ribbon.ant-ribbon-color-green {
+  background-color: #388e3c !important;
+  color: #fff !important;
+}
+:where(.css-dev-only-do-not-override-wf7orr).ant-ribbon.ant-ribbon-color-red {
+  background-color: #c62828 !important;
+  color: #fff !important;
+}

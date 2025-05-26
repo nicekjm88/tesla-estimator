@@ -13,7 +13,7 @@ const AutopilotSelector = ({ value, onChange }) => {
         return (
           <Badge.Ribbon 
             key={option.key}
-            text={option.price > 0 ? `+₩${option.price.toLocaleString()}` : '기본'} 
+            text={option.price > 0 ? `+${option.price.toLocaleString()}원` : '기본'} 
             color={option.price > 0 ? 'red' : 'green'}
           >
             <Card
