@@ -115,8 +115,8 @@ const Summary = ({ model, color, wheel, interiors, region, autopilot, price, reg
       render: (price) => (
         <Text color={price >= 0 ? 'blue' : 'green'}>
           {price >= 0
-            ? `₩${price.toLocaleString('ko-KR')}`
-            : `-₩${Math.abs(price).toLocaleString('ko-KR')}`}
+            ? `${price.toLocaleString('ko-KR')}원`
+            : `-${Math.abs(price).toLocaleString('ko-KR')}원`}
         </Text>
       ),
     },
