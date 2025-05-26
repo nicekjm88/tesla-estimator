@@ -8,7 +8,7 @@ import { registrationMethods } from '../constants/registrationMethods';
 import { deliveryOptions } from '../constants/deliveryOptions';
 
 
-export function calculatePrice({ model, color, wheel, interior, region, autopilot, registrationMethod, deliveryOption }) {
+export function calculatePrice({ model, color, wheel, interior, region, autopilot, registrationMethod, deliveryOption, childCount = 0 }) {
   const basePrice = models.find((m) => m.key === model)?.price || 0;
   const colorPrice = colors.find((c) => c.key === color)?.price || 0;
   const regionObj = regions.find((r) => r.key === region);
@@ -27,8 +27,13 @@ export function calculatePrice({ model, color, wheel, interior, region, autopilo
       ? interiorPricesByModel[model][interior]
       : 0;
 
+  let childBenefit = 0;
+  if (childCount === 2) childBenefit = 1000000;
+  else if (childCount === 3) childBenefit = 2000000;
+  else if (childCount >= 4) childBenefit = 3000000;    
+
   const totalBeforeSubsidy = basePrice + colorPrice + wheelPrice + interiorPrice + autopilotPrice + registrationMethodPrice + deliveryFee;
-  const total = totalBeforeSubsidy - subsidy;
+  const total = totalBeforeSubsidy - subsidy - childBenefit;
 
   return {
     basePrice,
@@ -40,5 +45,6 @@ export function calculatePrice({ model, color, wheel, interior, region, autopilo
     subsidy,
     registrationMethodPrice,
     deliveryFee,
+    childBenefit
   };
 }

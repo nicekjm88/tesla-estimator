@@ -38,7 +38,7 @@ const CountingNumber = ({ value, duration = 100 }) => {
   return <span>{displayValue.toLocaleString('ko-KR')}</span>;
 };
 
-const Summary = ({ model, color, wheel, interiors, region, autopilot, price, registrationMethod, deliveryOption }) => {
+const Summary = ({ model, color, wheel, interiors, region, autopilot, price, registrationMethod, deliveryOption, childCount }) => {
   const deliveryOptionObj = deliveryOptions.find(o => o.key === deliveryOption);
   const dataSource = [
     {
@@ -89,6 +89,15 @@ const Summary = ({ model, color, wheel, interiors, region, autopilot, price, reg
       value: deliveryOptionObj?.label || '선택되지 않음',
       price: deliveryOptionObj?.price || 0,
     },
+     {
+    key: 'childBenefit',
+    label: '다자녀 혜택',
+    value:
+      childCount >= 2
+        ? `자녀 ${childCount}명`
+        : '해당 없음',
+    price: childCount >= 2 ? -price.childBenefit : 0,
+  },
   ];
 
   const columns = [

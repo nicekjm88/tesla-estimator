@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import { Layout, Row, Col, Typography, Affix } from 'antd';
+import { useRouter } from 'next/navigation';
 import ModelSelector from '../components/ModelSelector';
 import ColorPicker from '../components/ColorPicker';
 import WheelPicker from '../components/WheelPicker';
@@ -10,6 +11,7 @@ import Summary from '../components/Summary';
 import AutopilotSelector from '../components/AutopilotSelector';
 import RegistrationMethodSelector from '../components/RegistrationMethodSelector';
 import DeliveryFeeSelector from '../components/DeliveryFeeSelector';
+import ChildBenefitInput from '../components/ChildBenefitInput';
 
 import { models } from '../constants/models';
 import { colors } from '../constants/colors';
@@ -25,6 +27,11 @@ const { Content } = Layout;
 const { Title } = Typography;
 
 export default function Home() {
+  const router = useRouter();
+  const handleTitleClick = () => {
+    router.push('/');
+  };
+
   // 상태 관리
   const [selectedModel, setSelectedModel] = useState('rwd');
   const [selectedColor, setSelectedColor] = useState('stealthGrey');
@@ -34,17 +41,16 @@ export default function Home() {
   const [selectedAutopilot, setSelectedAutopilot] = useState('none');
   const [registrationMethod, setRegistrationMethod] = useState(registrationMethods[0].key);
   const [deliveryOption, setDeliveryOption] = useState('self');
+  const [childCount, setChildCount] = useState(0);
 
   // 선택된 항목 정보 추출
   const model = models.find((m) => m.key === selectedModel);
   const color = colors.find((c) => c.key === selectedColor);
   const wheel = wheels.find((w) => w.key === selectedWheel);
-  const interior = interiors.find((i) => i.key === selectedInterior); // 🔴 수정: 선택된 인테리어 객체 추출
+  const interior = interiors.find((i) => i.key === selectedInterior);
   const region = regions.find((r) => r.key === selectedRegion);
   const autopilot = autopilotOptions.find((o) => o.key === selectedAutopilot);
-  const handleRegistrationMethodChange = (methodKey) => {
-    setRegistrationMethod(methodKey);
-  };
+  const handleRegistrationMethodChange = (methodKey) => setRegistrationMethod(methodKey);
 
   const price = calculatePrice({
     model: selectedModel,
@@ -54,13 +60,14 @@ export default function Home() {
     region: selectedRegion,
     autopilot: selectedAutopilot,
     registrationMethod: registrationMethod,
-    deliveryOption: deliveryOption
+    deliveryOption: deliveryOption,
+    childCount,
   });
 
   return (
     <Layout style={{ minHeight: '100vh', backgroundColor: '#ffffff' }}>
       <Content style={{ padding: '40px 16px' }}>
-        <Title level={2} style={{ textAlign: 'center', marginBottom: 32 }}>
+        <Title level={2} style={{ textAlign: 'center', marginBottom: 32 }} onClick={handleTitleClick}>
           New Model Y
         </Title>
         <Row gutter={[32, 32]} justify="center">
@@ -110,6 +117,8 @@ export default function Home() {
               selectedOption={deliveryOption}
               onOptionChange={setDeliveryOption}
             />
+            <Title level={4} style={{ marginTop: 40 }}>8. 다자녀 혜택</Title>
+            <ChildBenefitInput value={childCount} onChange={setChildCount} />
 
           </Col>
           <Col xs={24} lg={8} className="main-content-col" style={{ maxWidth: '500px', }} >
@@ -124,6 +133,7 @@ export default function Home() {
                 autopilot={autopilot}
                 registrationMethod={registrationMethods.find(r => r.key === registrationMethod)}
                 deliveryOption={deliveryOption}
+                childCount={childCount}
               />
             </Affix>
           </Col>
