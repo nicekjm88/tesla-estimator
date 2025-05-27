@@ -1,10 +1,21 @@
 'use client'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Select } from 'antd';
-import { regions } from '../constants/regions';
 
-const RegionSelector = ({ value, onChange }) => {
-  const options = regions.map(region => ({
+const RegionSelector = ({ value, onChange, regions = [] }) => {
+  const [fetchedRegions, setFetchedRegions] = useState(regions);
+
+  useEffect(() => {
+    if (regions.length === 0) {
+      fetch('/api/regions')
+        .then(res => res.json())
+        .then(data => setFetchedRegions(data));
+    } else {
+      setFetchedRegions(regions);
+    }
+  }, [regions]);
+
+  const options = fetchedRegions.map(region => ({
     label: region.name,
     value: region.key,
   }));

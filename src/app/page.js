@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Layout, Row, Col, Typography, Affix } from 'antd';
 import { useRouter } from 'next/navigation';
 import ModelSelector from '../components/ModelSelector';
@@ -19,11 +19,9 @@ import { models } from '../constants/models';
 import { colors } from '../constants/colors';
 import { wheels } from '../constants/wheels';
 import { interiors } from '../constants/interiors';
-import { regions } from '../constants/regions';
 import { autopilotOptions } from '../constants/autopilotOptions';
 import { calculatePrice } from '../utils/calculatePrice';
 import { registrationMethods } from '../constants/registrationMethods';
-
 
 const { Content } = Layout;
 const { Title } = Typography;
@@ -40,10 +38,18 @@ export default function Home() {
   const [selectedWheel, setSelectedWheel] = useState('crossflow19');
   const [selectedInterior, setSelectedInterior] = useState('allBlack');
   const [selectedRegion, setSelectedRegion] = useState('seoul');
+  const [regions, setRegions] = useState([]); // regions 상태 추가
   const [selectedAutopilot, setSelectedAutopilot] = useState('none');
   const [registrationMethod, setRegistrationMethod] = useState(registrationMethods[0].key);
   const [deliveryOption, setDeliveryOption] = useState('self');
   const [childCount, setChildCount] = useState(0);
+
+  // regions API 연동
+  useEffect(() => {
+    fetch('/api/regions')
+      .then(res => res.json())
+      .then(data => setRegions(data));
+  }, []);
 
   // 선택된 항목 정보 추출
   const model = models.find((m) => m.key === selectedModel);
@@ -64,6 +70,7 @@ export default function Home() {
     registrationMethod: registrationMethod,
     deliveryOption: deliveryOption,
     childCount,
+    regions, // 반드시 추가!
   });
 
   return (
@@ -107,6 +114,7 @@ export default function Home() {
             <RegionSelector
               value={selectedRegion}
               onChange={setSelectedRegion}
+              regions={regions} // props로 전달
             />
 
             <Title level={4} style={{ marginTop: 40 }}>6. 등록 방법</Title>
@@ -134,7 +142,7 @@ export default function Home() {
                   color={color}
                   price={price}
                   wheel={wheel}
-                  interiors={interior} // 🔴 수정: 선택된 인테리어 객체 전달
+                  interiors={interior}
                   region={region}
                   autopilot={autopilot}
                   registrationMethod={registrationMethods.find(r => r.key === registrationMethod)}
@@ -149,7 +157,7 @@ export default function Home() {
                   color={color}
                   price={price}
                   wheel={wheel}
-                  interiors={interior} // 🔴 수정: 선택된 인테리어 객체 전달
+                  interiors={interior}
                   region={region}
                   autopilot={autopilot}
                   registrationMethod={registrationMethods.find(r => r.key === registrationMethod)}

@@ -2,7 +2,6 @@ import { models } from '../constants/models';
 import { colors } from '../constants/colors';
 import { wheelPricesByModel } from '../constants/wheelPrices';
 import { interiorPricesByModel } from '../constants/interiorPrices';
-import { regions } from '../constants/regions';
 import { autopilotOptions } from '../constants/autopilotOptions';
 import { registrationMethods } from '../constants/registrationMethods';
 import { deliveryOptions } from '../constants/deliveryOptions';
@@ -16,12 +15,13 @@ export function calculatePrice({
   autopilot,
   registrationMethod,
   deliveryOption,
-  childCount = 0
+  childCount = 0,
+  regions = [] // regions를 인자로 받음
 }) {
   const basePrice = models.find((m) => m.key === model)?.price || 0;
   const colorPrice = colors.find((c) => c.key === color)?.price || 0;
   const regionObj = regions.find((r) => r.key === region);
-  const subsidy = regionObj?.subsidyByModel?.[model] ?? 0;
+  const subsidy = regionObj && regionObj[model] ? regionObj[model] : 0;
   const autopilotPrice = autopilotOptions.find((opt) => opt.key === autopilot)?.price || 0;
   const registrationMethodPrice = registrationMethods.find((m) => m.key === registrationMethod)?.price || 0;
   const deliveryFee = deliveryOptions.find((o) => o.key === deliveryOption)?.price || 0;
