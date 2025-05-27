@@ -8,6 +8,7 @@ import WheelPicker from '../components/WheelPicker';
 import InteriorPicker from '../components/InteriorPicker';
 import RegionSelector from '../components/RegionSelector';
 import Summary from '../components/Summary';
+import MobileSummaryBottomBar from '../components/MobileSummaryBottomBar';
 import AutopilotSelector from '../components/AutopilotSelector';
 import RegistrationMethodSelector from '../components/RegistrationMethodSelector';
 import DeliveryFeeSelector from '../components/DeliveryFeeSelector';
@@ -120,26 +121,43 @@ export default function Home() {
             />
             <Title level={4} style={{ marginTop: 40 }}>8. 다자녀 혜택</Title>
             <ChildBenefitInput value={childCount} onChange={setChildCount} />
-            
+
             <Title level={4} style={{ marginTop: 40 }}>9. 취등록세(예상)</Title>
             <AcquisitionTaxDisplay acquisitionTax={price.acquisitionTax} />
 
           </Col>
           <Col xs={24} lg={8} className="main-content-col" style={{ maxWidth: '500px', }} >
             <Affix offsetTop={24}>
-              <Summary
-                model={model}
-                color={color}
-                price={price}
-                wheel={wheel}
-                interiors={interior} // 🔴 수정: 선택된 인테리어 객체 전달
-                region={region}
-                autopilot={autopilot}
-                registrationMethod={registrationMethods.find(r => r.key === registrationMethod)}
-                deliveryOption={deliveryOption}
-                childCount={childCount}
-                acquisitionTax={price.acquisitionTax}
-              />
+              <div className="summary-desktop">
+                <Summary
+                  model={model}
+                  color={color}
+                  price={price}
+                  wheel={wheel}
+                  interiors={interior} // 🔴 수정: 선택된 인테리어 객체 전달
+                  region={region}
+                  autopilot={autopilot}
+                  registrationMethod={registrationMethods.find(r => r.key === registrationMethod)}
+                  deliveryOption={deliveryOption}
+                  childCount={childCount}
+                  acquisitionTax={price.acquisitionTax}
+                />
+              </div>
+              <MobileSummaryBottomBar totalWithTax={price.totalWithTax}>
+                <Summary
+                  model={model}
+                  color={color}
+                  price={price}
+                  wheel={wheel}
+                  interiors={interior} // 🔴 수정: 선택된 인테리어 객체 전달
+                  region={region}
+                  autopilot={autopilot}
+                  registrationMethod={registrationMethods.find(r => r.key === registrationMethod)}
+                  deliveryOption={deliveryOption}
+                  childCount={childCount}
+                  acquisitionTax={price.acquisitionTax}
+                />
+              </MobileSummaryBottomBar>
             </Affix>
           </Col>
         </Row>

@@ -2,39 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Typography, Table, Tag } from 'antd';
 import { deliveryOptions } from '../constants/deliveryOptions';
+import CountingNumber from '../components/CountingNumber';
 
 const { Title, Text } = Typography;
-
-const CountingNumber = ({ value, duration = 100 }) => {
-  const [displayValue, setDisplayValue] = useState(0);
-
-  useEffect(() => {
-    let startValue = displayValue;
-    let endValue = value;
-    let startTime = Date.now();
-
-    const updateValue = () => {
-      const now = Date.now();
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-
-      const easeProgress = 1 - Math.pow(1 - progress, 3);
-
-      const currentValue = Math.floor(startValue + (endValue - startValue) * easeProgress);
-      setDisplayValue(currentValue);
-
-      if (progress < 1) {
-        requestAnimationFrame(updateValue);
-      }
-    };
-
-    if (startValue !== endValue) {
-      requestAnimationFrame(updateValue);
-    }
-  }, [value, duration, displayValue]);
-
-  return <span>{displayValue.toLocaleString('ko-KR')}</span>;
-};
 
 const Summary = ({
   model,
@@ -210,11 +180,10 @@ const Summary = ({
           style={{
             margin: 0,
             color: '#c62828',
-            fontWeight: 'bold',
-            color: '#c62828'
+            fontWeight: 'bold'
           }}
         >
-          <CountingNumber value={price?.totalWithTax || 0} />원
+          <CountingNumber value={price?.totalWithTax || 0} duration={350} />원
         </Title>
       </div>
     </Card>

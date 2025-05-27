@@ -80,4 +80,18 @@ a {
     .model-btn span {
     font-size: 12px !important;
   }
+  .mobile-summary-fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    z-index: 2000;
+    box-shadow: 0 -2px 12px rgba(0,0,0,0.10);
+    background: #fff;
+    transition: max-height 0.3s;
+  }
+  .summary-desktop { display: none !important; }
+}
+@media (min-width: 769px) {
+  .summary-mobile { display: none !important; }
 }
