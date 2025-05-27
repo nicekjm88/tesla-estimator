@@ -122,7 +122,7 @@ export default function Home() {
             <ChildBenefitInput value={childCount} onChange={setChildCount} />
             
             <Title level={4} style={{ marginTop: 40 }}>9. 취등록세(예상)</Title>
-            <AcquisitionTaxDisplay carTotalPrice={price.carTotalPrice} />
+            <AcquisitionTaxDisplay acquisitionTax={price.acquisitionTax} />
 
           </Col>
           <Col xs={24} lg={8} className="main-content-col" style={{ maxWidth: '500px', }} >
@@ -138,7 +138,7 @@ export default function Home() {
                 registrationMethod={registrationMethods.find(r => r.key === registrationMethod)}
                 deliveryOption={deliveryOption}
                 childCount={childCount}
-                carTotalPrice={price.carTotalPrice}
+                acquisitionTax={price.acquisitionTax}
               />
             </Affix>
           </Col>

@@ -4,9 +4,7 @@ import { Card, Typography } from 'antd';
 
 const { Text } = Typography;
 
-const AcquisitionTaxDisplay = ({ carTotalPrice }) => {
-  // 취득세 7% 계산
-  const acquisitionTax = Math.round(carTotalPrice * 0.07);
+const AcquisitionTaxDisplay = ({ acquisitionTax }) => {
 
   return (
     <Card style={{ margin: '24px 0 8px 0' }}>

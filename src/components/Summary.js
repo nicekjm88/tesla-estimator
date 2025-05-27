@@ -5,7 +5,6 @@ import { deliveryOptions } from '../constants/deliveryOptions';
 
 const { Title, Text } = Typography;
 
-// 숫자 카운팅 애니메이션 컴포넌트
 const CountingNumber = ({ value, duration = 100 }) => {
   const [displayValue, setDisplayValue] = useState(0);
 
@@ -19,7 +18,6 @@ const CountingNumber = ({ value, duration = 100 }) => {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
 
-      // easeOutCubic 이징 함수 (Toss 스타일)
       const easeProgress = 1 - Math.pow(1 - progress, 3);
 
       const currentValue = Math.floor(startValue + (endValue - startValue) * easeProgress);
@@ -38,10 +36,20 @@ const CountingNumber = ({ value, duration = 100 }) => {
   return <span>{displayValue.toLocaleString('ko-KR')}</span>;
 };
 
-const Summary = ({ model, color, wheel, interiors, region, autopilot, price, registrationMethod, deliveryOption, childCount, carTotalPrice }) => {
+const Summary = ({
+  model,
+  color,
+  wheel,
+  interiors,
+  region,
+  autopilot,
+  price,
+  registrationMethod,
+  deliveryOption,
+  childCount
+}) => {
   const deliveryOptionObj = deliveryOptions.find(o => o.key === deliveryOption);
-  const calculatedAcquisitionTax = Math.round((carTotalPrice || 0) * 0.07);
-  
+
   const dataSource = [
     {
       key: 'model',
@@ -94,17 +102,15 @@ const Summary = ({ model, color, wheel, interiors, region, autopilot, price, reg
     {
       key: 'childBenefit',
       label: '다자녀 혜택',
-      value:
-        childCount >= 2
-          ? `자녀 ${childCount}명`
-          : '해당 없음',
+      value: childCount >= 2 ? `자녀 ${childCount}명` : '해당 없음',
       price: childCount >= 2 ? -price.childBenefit : 0,
     },
+    // **취득세는 표시는 하되, 실 결제액에는 더하지 마세요!**
     {
       key: 'acquisitionTax',
       label: '취등록세(예상)',
-      value: '차량가의 7%',
-      price: calculatedAcquisitionTax,
+      value: '공급가액의 7% - 감면',
+      price: price?.acquisitionTax || 0,
     },
   ];
 
@@ -129,13 +135,19 @@ const Summary = ({ model, color, wheel, interiors, region, autopilot, price, reg
       key: 'price',
       width: '30%',
       align: 'right',
-      render: (price) => (
-        <Text color={price >= 0 ? 'blue' : 'green'}>
-          {price >= 0
-            ? `${price.toLocaleString('ko-KR')}원`
-            : `-${Math.abs(price).toLocaleString('ko-KR')}원`}
-        </Text>
-      ),
+      render: (price, row) => {
+        // 취득세라면 blue, 보조금/다자녀라면 green, 나머지는 blue
+        let color = 'blue';
+        if (row.key === 'region' || row.key === 'childBenefit') color = 'green';
+        if (row.key === 'acquisitionTax') color = 'geekblue';
+        return (
+          <Tag color={color}>
+            {price >= 0
+              ? `${price.toLocaleString('ko-KR')}원`
+              : `-${Math.abs(price).toLocaleString('ko-KR')}원`}
+          </Tag>
+        );
+      },
     },
   ];
 
@@ -156,16 +168,41 @@ const Summary = ({ model, color, wheel, interiors, region, autopilot, price, reg
         style={{ marginBottom: 16 }}
       />
 
-      <div
+      {/* 실 결제액: 취득세 포함 X */}
+      {/* <div
         style={{
           borderTop: '2px solid #333',
-          paddingTop: 16,
+          paddingTop: 8,
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center'
         }}
       >
-        <Title level={4} style={{ margin: 0, color: '#333' }}>
+        <Title level={5} style={{ margin: 0, color: '#333' }}>
+          실 결제액 (혜택 반영)
+        </Title>
+        <Title
+          level={4}
+          style={{
+            margin: 0,
+            color: '#2e7d32',
+            fontWeight: 'bold',
+          }}
+        >
+          <CountingNumber value={price?.total || 0} />원
+        </Title>
+      </div> */}
+      {/* 총 소요 비용: 실 결제액 + 취득세 */}
+      <div
+        style={{
+          marginTop: 0,
+          paddingTop: 0,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}
+      >
+        <Title level={4} style={{ margin: 0 }}>
           총 합계
         </Title>
         <Title
@@ -174,10 +211,10 @@ const Summary = ({ model, color, wheel, interiors, region, autopilot, price, reg
             margin: 0,
             color: '#c62828',
             fontWeight: 'bold',
-            transition: 'transform 0.2s ease'
+            color: '#c62828'
           }}
         >
-          <CountingNumber value={price?.total || 0} />원
+          <CountingNumber value={price?.totalWithTax || 0} />원
         </Title>
       </div>
     </Card>

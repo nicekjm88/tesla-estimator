@@ -41,14 +41,23 @@ export function calculatePrice({
   else if (childCount === 3) childBenefit = 2000000;
   else if (childCount >= 4) childBenefit = 3000000;
 
-  // 취득세(보조금, 혜택 차감 전 금액 기준)
+  // 1. 차량 총액 (보조금/혜택 전, 취득세 기준)
   const carTotalPrice = basePrice + colorPrice + wheelPrice + interiorPrice + autopilotPrice + registrationMethodPrice + deliveryFee;
-  const acquisitionTax = Math.round(carTotalPrice * 0.07);
 
-  // 실 결제액(보조금·혜택 차감)
+  // 2. 부가세 제외 과세표준(공급가액)
+  const supplyPrice = Math.round((basePrice + colorPrice + wheelPrice + interiorPrice) / 1.1);
+
+  // 3. 취득세 (7%)
+  let acquisitionTax = Math.round(supplyPrice * 0.07);
+
+  // 4. 감면 한도 적용(전기차 기준 1,400,000, 정책 변경 가능)
+  const ACQUISITION_TAX_DISCOUNT_LIMIT = 1400000;
+  acquisitionTax = Math.max(acquisitionTax - ACQUISITION_TAX_DISCOUNT_LIMIT, 0);
+
+  // 5. 실 결제액(보조금·혜택 차감)
   const total = carTotalPrice - subsidy - childBenefit;
 
-  // 총 소요비용(실 결제액 + 취득세)
+  // 6. 총 소요비용(실 결제액 + 취득세)
   const totalWithTax = total + acquisitionTax;
 
   return {
@@ -61,8 +70,9 @@ export function calculatePrice({
     deliveryFee,
     subsidy,
     childBenefit,
-    carTotalPrice,    // 취득세 기준액
-    acquisitionTax,   // 취득세
+    carTotalPrice,    // 취득세 기준액(부가세 포함 총액)
+    supplyPrice,      // 공급가액(부가세 제외)
+    acquisitionTax,   // 최종 취득세(감면 적용)
     total,            // 실 결제액(취득세 제외)
     totalWithTax      // 실 결제액 + 취득세(최종 소요 비용)
   };
