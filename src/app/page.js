@@ -12,6 +12,7 @@ import AutopilotSelector from '../components/AutopilotSelector';
 import RegistrationMethodSelector from '../components/RegistrationMethodSelector';
 import DeliveryFeeSelector from '../components/DeliveryFeeSelector';
 import ChildBenefitInput from '../components/ChildBenefitInput';
+import AcquisitionTaxDisplay from '../components/AcquisitionTaxDisplay';
 
 import { models } from '../constants/models';
 import { colors } from '../constants/colors';
@@ -119,6 +120,9 @@ export default function Home() {
             />
             <Title level={4} style={{ marginTop: 40 }}>8. 다자녀 혜택</Title>
             <ChildBenefitInput value={childCount} onChange={setChildCount} />
+            
+            <Title level={4} style={{ marginTop: 40 }}>9. 취등록세</Title>
+            <AcquisitionTaxDisplay carTotalPrice={price.carTotalPrice} />
 
           </Col>
           <Col xs={24} lg={8} className="main-content-col" style={{ maxWidth: '500px', }} >
@@ -134,6 +138,7 @@ export default function Home() {
                 registrationMethod={registrationMethods.find(r => r.key === registrationMethod)}
                 deliveryOption={deliveryOption}
                 childCount={childCount}
+                carTotalPrice={price.carTotalPrice}
               />
             </Affix>
           </Col>

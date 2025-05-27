@@ -7,8 +7,17 @@ import { autopilotOptions } from '../constants/autopilotOptions';
 import { registrationMethods } from '../constants/registrationMethods';
 import { deliveryOptions } from '../constants/deliveryOptions';
 
-
-export function calculatePrice({ model, color, wheel, interior, region, autopilot, registrationMethod, deliveryOption, childCount = 0 }) {
+export function calculatePrice({
+  model,
+  color,
+  wheel,
+  interior,
+  region,
+  autopilot,
+  registrationMethod,
+  deliveryOption,
+  childCount = 0
+}) {
   const basePrice = models.find((m) => m.key === model)?.price || 0;
   const colorPrice = colors.find((c) => c.key === color)?.price || 0;
   const regionObj = regions.find((r) => r.key === region);
@@ -30,10 +39,17 @@ export function calculatePrice({ model, color, wheel, interior, region, autopilo
   let childBenefit = 0;
   if (childCount === 2) childBenefit = 1000000;
   else if (childCount === 3) childBenefit = 2000000;
-  else if (childCount >= 4) childBenefit = 3000000;    
+  else if (childCount >= 4) childBenefit = 3000000;
 
-  const totalBeforeSubsidy = basePrice + colorPrice + wheelPrice + interiorPrice + autopilotPrice + registrationMethodPrice + deliveryFee;
-  const total = totalBeforeSubsidy - subsidy - childBenefit;
+  // 취득세(보조금, 혜택 차감 전 금액 기준)
+  const carTotalPrice = basePrice + colorPrice + wheelPrice + interiorPrice + autopilotPrice + registrationMethodPrice + deliveryFee;
+  const acquisitionTax = Math.round(carTotalPrice * 0.07);
+
+  // 실 결제액(보조금·혜택 차감)
+  const total = carTotalPrice - subsidy - childBenefit;
+
+  // 총 소요비용(실 결제액 + 취득세)
+  const totalWithTax = total + acquisitionTax;
 
   return {
     basePrice,
@@ -41,10 +57,13 @@ export function calculatePrice({ model, color, wheel, interior, region, autopilo
     wheelPrice,
     interiorPrice,
     autopilotPrice,
-    total,
-    subsidy,
     registrationMethodPrice,
     deliveryFee,
-    childBenefit
+    subsidy,
+    childBenefit,
+    carTotalPrice,    // 취득세 기준액
+    acquisitionTax,   // 취득세
+    total,            // 실 결제액(취득세 제외)
+    totalWithTax      // 실 결제액 + 취득세(최종 소요 비용)
   };
 }
