@@ -102,7 +102,7 @@ const Summary = ({ model, color, wheel, interiors, region, autopilot, price, reg
     },
     {
       key: 'acquisitionTax',
-      label: '취득세(예상)',
+      label: '취등록세(예상)',
       value: '차량가의 7%',
       price: calculatedAcquisitionTax,
     },

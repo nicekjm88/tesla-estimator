@@ -121,7 +121,7 @@ export default function Home() {
             <Title level={4} style={{ marginTop: 40 }}>8. 다자녀 혜택</Title>
             <ChildBenefitInput value={childCount} onChange={setChildCount} />
             
-            <Title level={4} style={{ marginTop: 40 }}>9. 취등록세</Title>
+            <Title level={4} style={{ marginTop: 40 }}>9. 취등록세(예상)</Title>
             <AcquisitionTaxDisplay carTotalPrice={price.carTotalPrice} />
 
           </Col>

@@ -1,4 +1,3 @@
-// components/AcquisitionTaxDisplay.js
 'use client'
 import React from 'react';
 import { Card, Typography } from 'antd';
@@ -10,9 +9,8 @@ const AcquisitionTaxDisplay = ({ carTotalPrice }) => {
   const acquisitionTax = Math.round(carTotalPrice * 0.07);
 
   return (
-    <Card size="small" style={{ margin: '24px 0 8px 0' }}>
-      <Text strong>취득세(예상) : </Text>
-      <Text type="danger" style={{ fontSize: 18, fontWeight: 600 }}>
+    <Card style={{ margin: '24px 0 8px 0' }}>
+      <Text style={{ fontSize: 18, color: '#c62828', fontWeight: 600 }}>
         {acquisitionTax.toLocaleString()}원
       </Text>
       <Text style={{ marginLeft: 16, color: '#999', fontSize: 13 }}>
