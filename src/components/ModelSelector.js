@@ -42,9 +42,7 @@ const ModelSelector = ({ value, onChange, colorKey, wheelKey, isThumbnail, showO
         boxShadow: isThumbnail ? 'none' : undefined,
         background: isThumbnail ? 'transparent' : undefined,
       }}
-      bodyStyle={{
-        padding: isThumbnail ? 8 : 16,
-      }}
+      styles={{ body: { padding: isThumbnail ? 8 : 16, } }}
     >
       {/* 썸네일 모드 또는 버튼 전용 모드가 아닐 때만 이미지 렌더 */}
       {!isThumbnail && !showOnlyButtons && (
