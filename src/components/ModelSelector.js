@@ -6,10 +6,14 @@ import { colors } from '../constants/colors';
 
 const { Text } = Typography;
 
-const ModelSelector = ({ value, onChange, colorKey }) => {
+const ModelSelector = ({ value, onChange, colorKey, wheelKey }) => {
   // 선택된 색상에 해당하는 renderImg 경로 추출
   const selectedColor = colors.find((c) => c.key === colorKey);
-  const renderImgSrc = selectedColor?.renderImg || '';
+  
+  // wheelKey가 'induction20'인 경우 renderImgW20 사용, 아니면 기본 renderImg 사용
+  const renderImgSrc = wheelKey === 'induction20' 
+    ? selectedColor?.renderImgW20 || selectedColor?.renderImg || ''
+    : selectedColor?.renderImg || '';
 
   return (
     <Card style={{ marginBottom: 32 }} bodyStyle={{ padding: 16 }}>
@@ -18,8 +22,7 @@ const ModelSelector = ({ value, onChange, colorKey }) => {
         <div style={{ marginBottom: 24, textAlign: 'center' }}>
           <Image
             src={renderImgSrc}
-            alt={`${selectedColor.name} 차량`}
-            style={{ width: '100%', maxHeight: 300 }}
+            alt={`${selectedColor?.name} 차량`}
             preview={false}
           />
         </div>

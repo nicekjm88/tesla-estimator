@@ -85,6 +85,7 @@ export default function Home() {
               value={selectedModel}
               onChange={setSelectedModel}
               colorKey={selectedColor}
+              wheelKey={selectedWheel}
             />
 
             <Title level={4} style={{ marginTop: 40 }}>1. 색상 선택</Title>
