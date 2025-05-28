@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Row, Col, Typography, Affix } from 'antd';
 import { useRouter } from 'next/navigation';
+import { useMediaQuery } from 'react-responsive'; // 추가
 import ModelSelector from '../components/ModelSelector';
 import ColorPicker from '../components/ColorPicker';
 import WheelPicker from '../components/WheelPicker';
@@ -73,6 +74,9 @@ export default function Home() {
     regions, // 반드시 추가!
   });
 
+  // 모바일 디바이스 감지
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+
   return (
     <Layout style={{ minHeight: '100vh', backgroundColor: '#ffffff' }}>
       <Content style={{ padding: '40px 16px' }}>
@@ -81,12 +85,40 @@ export default function Home() {
         </Title>
         <Row gutter={[32, 32]} justify="center">
           <Col xs={24} lg={16} className="main-content-col" style={{ maxWidth: '900px', }}>
-            <ModelSelector
-              value={selectedModel}
-              onChange={setSelectedModel}
-              colorKey={selectedColor}
-              wheelKey={selectedWheel}
-            />
+            {/* 모바일에서만 Affix로 ModelSelector를 sticky 처리 */}
+            {isMobile ? (
+              <>
+                <Affix offsetTop={0}>
+                  <div style={{ background: '#fff', zIndex: 100, boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
+                    {/* 썸네일 이미지만 보여주기 */}
+                    <ModelSelector
+                      value={selectedModel}
+                      onChange={setSelectedModel}
+                      colorKey={selectedColor}
+                      wheelKey={selectedWheel}
+                      isThumbnail
+                    />
+                  </div>
+                </Affix>
+                {/* 트림(모델) 선택 버튼은 Affix 아래에 항상 노출 */}
+                <div style={{ margin: '16px 0' }}>
+                  <ModelSelector
+                    value={selectedModel}
+                    onChange={setSelectedModel}
+                    colorKey={selectedColor}
+                    wheelKey={selectedWheel}
+                    showOnlyButtons // 버튼만 보이도록 prop 추가
+                  />
+                </div>
+              </>
+            ) : (
+              <ModelSelector
+                value={selectedModel}
+                onChange={setSelectedModel}
+                colorKey={selectedColor}
+                wheelKey={selectedWheel}
+              />
+            )}
 
             <Title level={4} style={{ marginTop: 40 }}>1. 색상 선택</Title>
             <ColorPicker value={selectedColor} onChange={setSelectedColor} />
