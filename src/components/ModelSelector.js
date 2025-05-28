@@ -46,15 +46,13 @@ const ModelSelector = ({ value, onChange, colorKey, wheelKey, isThumbnail, showO
         padding: isThumbnail ? 8 : 16,
       }}
     >
-      {/* 이미지 영역: 썸네일 모드 또는 버튼만 모드가 아니면 렌더링 */}
-      {!(showOnlyButtons || isThumbnail === false) && !showOnlyButtons && (
+      {/* 썸네일 모드 또는 버튼 전용 모드가 아닐 때만 이미지 렌더 */}
+      {!isThumbnail && !showOnlyButtons && (
         <div style={{
-          marginBottom: isThumbnail ? 0 : 24,
+          marginBottom: 24,
           textAlign: 'center',
-          minHeight: isThumbnail ? 80 : 200,
           position: 'relative'
         }}>
-          {/* 이전 이미지 (fade-out) */}
           {prevImg && (
             <img
               src={prevImg}
@@ -72,7 +70,6 @@ const ModelSelector = ({ value, onChange, colorKey, wheelKey, isThumbnail, showO
               draggable={false}
             />
           )}
-          {/* 현재 이미지 (fade-in) */}
           {currentImg && (
             <img
               src={currentImg}
@@ -91,8 +88,51 @@ const ModelSelector = ({ value, onChange, colorKey, wheelKey, isThumbnail, showO
           )}
         </div>
       )}
-      {/* 트림(모델) 버튼은 showOnlyButtons가 true일 때만, 또는 isThumbnail/일반모드일 때만 각각 하나만 렌더링 */}
-      {!isThumbnail && !showOnlyButtons && (
+      {/* 썸네일 모드일 때만 이미지(작게) 렌더 */}
+      {isThumbnail && (
+        <div style={{
+          marginBottom: 0,
+          textAlign: 'center',
+          minHeight: 80,
+          position: 'relative'
+        }}>
+          {prevImg && (
+            <img
+              src={prevImg}
+              alt="이전 차량"
+              style={{
+                padding: '8px',
+                position: 'absolute',
+                left: 0, top: 0, width: '100%', height: 'auto',
+                opacity: fadeIn ? 0 : 1,
+                transition: `opacity ${FADE_DURATION}ms cubic-bezier(0.4,0,0.2,1)`,
+                zIndex: 1,
+                pointerEvents: 'none',
+                background: 'transparent'
+              }}
+              draggable={false}
+            />
+          )}
+          {currentImg && (
+            <img
+              src={currentImg}
+              alt={`${selectedColor?.name} 차량`}
+              style={{
+                padding: '8px',
+                width: '100%',
+                height: 'auto',
+                opacity: fadeIn ? 1 : 0,
+                transition: `opacity ${FADE_DURATION}ms cubic-bezier(0.4,0,0.2,1)`,
+                zIndex: 2,
+                background: 'transparent'
+              }}
+              draggable={false}
+            />
+          )}
+        </div>
+      )}
+      {/* 트림(모델) 버튼: 일반 모드 또는 showOnlyButtons 모드에서만 렌더 */}
+      {(!isThumbnail && !showOnlyButtons) && (
         <Space.Compact style={{ display: 'flex', width: '100%' }}>
           {models.map((model) => {
             const isSelected = model.key === value;
