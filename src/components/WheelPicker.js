@@ -43,13 +43,15 @@ const WheelPicker = ({ value, onChange, modelKey }) => {
                   height: '100%',
                   paddingTop: '25px',
                 }}
-                bodyStyle={{
-                  padding: 12,
-                  textAlign: 'center',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                styles={{
+                  body: {
+                    padding: 12,
+                    textAlign: 'center',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }
                 }}
                 onClick={() => onChange(wheel.key)}
               >

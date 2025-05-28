@@ -124,9 +124,8 @@ const Summary = ({
   return (
     <Card
       title={<Title level={4} style={{ margin: 0 }}>🧾 견적 요약</Title>}
-      bordered
       style={{ width: '100%' }}
-      bodyStyle={{ padding: '16px' }}
+      styles={{ body: { padding: '16px' } }}
     >
       <Table
         dataSource={dataSource}

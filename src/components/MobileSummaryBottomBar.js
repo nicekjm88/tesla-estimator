@@ -51,7 +51,7 @@ const MobileSummaryBottomBar = ({ totalWithTax, children }) => {
         height="65vh"
         closable={false}
         maskClosable
-        bodyStyle={{ padding: 0, borderRadius: '24px 24px 0 0', overflow: 'auto' }}
+        styles={{ body: { padding: 0, borderRadius: '24px 24px 0 0', overflow: 'auto' } }}
         style={{ borderRadius: '24px 24px 0 0' }}
       >
         {/* 실제 견적 요약 전체 내용 children으로 받아 출력 */}

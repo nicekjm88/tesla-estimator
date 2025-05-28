@@ -31,14 +31,16 @@ const InteriorPicker = ({ value, onChange, modelKey }) => {
                   transition: 'all 0.3s ease',
                   height: '100%',
                 }}
-                bodyStyle={{
-                  padding: 12,
-                  textAlign: 'center',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  paddingTop: '25px',
+                styles={{
+                  body: {
+                    padding: 12,
+                    textAlign: 'center',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    paddingTop: '25px',
+                  }
                 }}
                 onClick={() => onChange(interior.key)}
               >

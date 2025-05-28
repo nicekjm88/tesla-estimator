@@ -27,10 +27,7 @@ const ColorPicker = ({ value, onChange }) => {
                   boxShadow: isSelected ? '0 2px 8px rgba(24,144,255,0.15)' : undefined,
                   paddingTop: '25px',
                 }}
-                bodyStyle={{
-                  padding: 12,
-                  textAlign: 'center',
-                }}
+                styles={{ body: { padding: 12, textAlign: 'center' } }}
                 onClick={() => onChange(color.key)}
               >
                 <div style={{ marginBottom: 8 }}>

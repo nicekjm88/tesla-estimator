@@ -30,13 +30,15 @@ const RegistrationMethodSelector = ({ selectedMethod, onMethodChange }) => {
                   paddingTop: '25px',
                   background: isSelected ? '#e6f4ff' : '#fff',
                 }}
-                bodyStyle={{
-                  padding: 12,
-                  textAlign: 'center',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                styles={{
+                  body: {
+                    padding: 12,
+                    textAlign: 'center',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }
                 }}
                 onClick={() => onMethodChange(method.key)}
               >

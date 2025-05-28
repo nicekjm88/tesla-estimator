@@ -11,9 +11,9 @@ const AutopilotSelector = ({ value, onChange }) => {
       {autopilotOptions.map((option) => {
         const isSelected = value === option.key;
         return (
-          <Badge.Ribbon 
+          <Badge.Ribbon
             key={option.key}
-            text={option.price > 0 ? `+${option.price.toLocaleString()}원` : '기본'} 
+            text={option.price > 0 ? `+${option.price.toLocaleString()}원` : '기본'}
             color={option.price > 0 ? 'red' : 'green'}
           >
             <Card
@@ -28,23 +28,21 @@ const AutopilotSelector = ({ value, onChange }) => {
                 transition: 'all 0.3s ease',
                 width: '100%',
               }}
-              bodyStyle={{
-                padding: 16,
-              }}
+              styles={{ body: { padding: 16 } }}
               onClick={() => onChange(option.key)}
             >
               <Space direction="vertical" size="small">
-                <Text 
+                <Text
                   strong={isSelected}
-                  style={{ 
+                  style={{
                     fontSize: 16,
-                    color: isSelected ? '#171a20' : undefined 
+                    color: isSelected ? '#171a20' : undefined
                   }}
                 >
                   {option.name}
                 </Text>
-                <Text 
-                  type="secondary" 
+                <Text
+                  type="secondary"
                   style={{ fontSize: 13 }}
                 >
                   {option.description}

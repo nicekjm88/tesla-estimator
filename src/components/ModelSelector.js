@@ -16,7 +16,7 @@ const ModelSelector = ({ value, onChange, colorKey, wheelKey }) => {
     : selectedColor?.renderImg || '';
 
   return (
-    <Card style={{ marginBottom: 32 }} bodyStyle={{ padding: 16 }}>
+    <Card style={{ marginBottom: 32 }} styles={{ body: { padding: 16 } }}>
       {/* 선택된 색상 이미지 차량 렌더링 */}
       {renderImgSrc && (
         <div style={{ marginBottom: 24, textAlign: 'center' }}>
