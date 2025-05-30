@@ -45,7 +45,7 @@ export function calculatePrice({
   const carTotalPrice = basePrice + colorPrice + wheelPrice + interiorPrice + autopilotPrice + registrationMethodPrice + deliveryFee;
 
   // 2. 부가세 제외 과세표준(공급가액)
-  const supplyPrice = Math.round((basePrice + colorPrice + wheelPrice + interiorPrice) / 1.1);
+  const supplyPrice = Math.round((basePrice + colorPrice + wheelPrice + interiorPrice + autopilotPrice) / 1.1);
 
   // 3. 취득세 (7%)
   let acquisitionTax = Math.round(supplyPrice * 0.07);
