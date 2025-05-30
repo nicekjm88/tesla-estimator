@@ -1,4 +1,3 @@
-// constants/wheelPrices.js
 export const wheelPricesByModel = {
   rwd: {
     crossflow19: 0,
@@ -8,6 +7,6 @@ export const wheelPricesByModel = {
     induction20: 2571000,
   },
   launch: {
-    induction20: 0, // 🎯 여기 핵심
+    induction20: 0,
   },
 };
