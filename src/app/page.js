@@ -48,8 +48,22 @@ export default function Home() {
   // regions API 연동
   useEffect(() => {
     fetch('/api/regions')
-      .then(res => res.json())
-      .then(data => setRegions(data));
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch regions');
+        return res.json();
+      })
+      .then(data => {
+        if (Array.isArray(data)) {
+          setRegions(data);
+        } else {
+          console.error('Regions data is not an array:', data);
+          setRegions([]);
+        }
+      })
+      .catch(err => {
+        console.error('Error fetching regions:', err);
+        setRegions([]);
+      });
   }, []);
 
   // 선택된 항목 정보 추출
